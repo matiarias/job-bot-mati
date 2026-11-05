@@ -72,4 +72,3 @@ npm.cmd run typecheck
 ## Próximos pasos
 
 Están planificados prototipos y una interfaz React, una API con NestJS y almacenamiento PostgreSQL en Supabase. Todavía no forman parte del proyecto.
-

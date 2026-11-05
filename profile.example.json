@@ -1,0 +1,14 @@
+{
+  "documentedYears": 3,
+  "english": "B2",
+  "evidence": {
+    "react": "Experiencia ficticia con React y TypeScript.",
+    "bff": "Ejemplo de trabajo con Node.js.",
+    "finance": "Ejemplo de proyecto de pagos.",
+    "ownership": "Ejemplo de colaboración con diseño.",
+    "quality": "Ejemplo de pruebas y accesibilidad.",
+    "tooling": "Ejemplo de herramientas de desarrollo.",
+    "education": "Ejemplo de formación técnica."
+  },
+  "unknown": "Datos no documentados en el perfil ficticio."
+}

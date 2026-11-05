@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+node_modules/
+data/
+data-test-*/
+profile.local.json
+*.sqlite
+*.sqlite-*
+*.db
+*.pdf
+*.zip
+coverage/
+dist/
