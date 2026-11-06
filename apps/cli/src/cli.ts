@@ -21,7 +21,7 @@ try {
     const result = await scan({
       preview,
       calibrate: args.has('--calibrate'),
-      directory: join(import.meta.dirname, '..', 'data'),
+      directory: join(import.meta.dirname, '..', '..', '..', 'data'),
       matcher: key ? createMatcher(key) : undefined,
       key: process.env.HIMALAYAS_API_KEY?.trim(),
     });

@@ -31,7 +31,7 @@ if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
     throw "Ya existe la tarea $taskName. Podés ajustar su horario en el Programador de tareas."
 }
 $at = [datetime]::Today.Add([TimeSpan]::Parse($Time))
-$action = New-ScheduledTaskAction -Execute $node -Argument '--env-file=.env src/cli.ts' -WorkingDirectory $project
+$action = New-ScheduledTaskAction -Execute $node -Argument '--env-file=.env apps/cli/src/cli.ts' -WorkingDirectory $project
 $trigger = New-ScheduledTaskTrigger -Daily -At $at
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings -Description 'Busca ofertas frontend compatibles con trabajo remoto desde Argentina.'

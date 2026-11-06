@@ -6,7 +6,7 @@ CLI personal para puestos remotos de frontend y software engineering con foco fr
 
 - Windows con PowerShell, Git y Node.js 24 compatible.
 - Conexión a internet para consultar los portales. No necesitás una cuenta de OpenAI para la vista previa.
-- Esta versión funciona en consola: todavía no tiene interfaz web ni PostgreSQL.
+- El proyecto incluye la CLI y una bandeja web con ofertas de ejemplo.
 
 ## Preparación
 
@@ -57,10 +57,10 @@ Revisá `data/reports` cuando termine. Si la PC está apagada, Windows intentar�
 
 ## Cómo funciona
 
-- `src/sources.ts` consulta la primera página de tres búsquedas por portal, normaliza la respuesta y comprueba la vigencia de los candidatos prioritarios. Himalayas conserva su enlace oficial de postulación. LinkedIn se usa por sus alertas, en paralelo.
-- `src/rules.ts` separa ubicación, requisitos obligatorios y afinidad del puesto. `src/matching.ts` usa Responses y Zod para aportar coincidencias y brechas a partir de la descripción y el perfil.
-- `src/store.ts` deduplica por ID, URL directa cuando el portal la entrega y coincidencia de contenido. La deduplicación entre portales puede dejar pasar avisos con enlaces diferentes y textos reescritos.
-- `src/scan.ts` verifica y evalúa hasta 15 candidatos por búsqueda, prioriza hasta cinco y separa los avisos que requieren revisión. Un error en una fuente se informa junto con los resultados disponibles.
+- `apps/cli/src/sources.ts` consulta la primera página de tres búsquedas por portal, normaliza la respuesta y comprueba la vigencia de los candidatos prioritarios. Himalayas conserva su enlace oficial de postulación. LinkedIn se usa por sus alertas, en paralelo.
+- `apps/cli/src/rules.ts` separa ubicación, requisitos obligatorios y afinidad del puesto. `apps/cli/src/matching.ts` usa Responses y Zod para aportar coincidencias y brechas a partir de la descripción y el perfil.
+- `apps/cli/src/store.ts` deduplica por ID, URL directa cuando el portal la entrega y coincidencia de contenido. La deduplicación entre portales puede dejar pasar avisos con enlaces diferentes y textos reescritos.
+- `apps/cli/src/scan.ts` verifica y evalúa hasta 15 candidatos por búsqueda, prioriza hasta cinco y separa los avisos que requieren revisión. Un error en una fuente se informa junto con los resultados disponibles.
 
 ```powershell
 npm.cmd test
@@ -69,6 +69,23 @@ npm.cmd run typecheck
 
 [Get on Board](https://www.getonbrd.com/user-manual/get-on-board-s-api) · [Himalayas](https://himalayas.app/docs/remote-jobs-api) · [Alertas de LinkedIn](https://www.linkedin.com/help/linkedin/answer/a511279) · [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses)
 
+## Interfaz web
+
+Desde la raíz, ejecutá estos comandos y abrí la URL que muestra Vite.
+
+```powershell
+npm.cmd ci
+npm.cmd run dev:web
+```
+
+La bandeja usa ofertas ficticias. Podés buscar por puesto, empresa o tecnología, ordenar por fecha y guardar ofertas en este navegador. En pantallas chicas, al elegir una oferta se abre su detalle. Para generar la compilación de producción usá `npm.cmd run build:web`.
+
 ## Próximos pasos
 
-Están planificados prototipos y una interfaz React, una API con NestJS y almacenamiento PostgreSQL en Supabase. Todavía no forman parte del proyecto.
+El siguiente paso es crear la API de ofertas con NestJS. La persistencia en PostgreSQL con Supabase se agregará después.
+
+## Estructura del repositorio
+
+Este repositorio usa npm workspaces. `apps/cli` contiene el bot actual y tiene su propio `package.json`; el `package.json` de la raíz coordina la instalación y los comandos. El perfil, `.env` y `data/` permanecen en la raíz. En apps/web vive la interfaz con React, Vite y Tailwind.
+
+Desde la raíz, `npm.cmd ci` instala todos los workspaces. Para ejecutar un comando específico: `npm.cmd run test --workspace=@job-bot/cli`.

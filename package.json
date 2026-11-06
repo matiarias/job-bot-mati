@@ -6,19 +6,15 @@
   "engines": {
     "node": ">=24.22.2 <25"
   },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "jobs:scan": "node --env-file-if-exists=.env src/cli.ts",
-    "test": "node --test",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "html-to-text": "10.0.1",
-    "openai": "7.52.0",
-    "zod": "4.6.7"
-  },
-  "devDependencies": {
-    "@types/html-to-text": "9.0.4",
-    "@types/node": "24.19.2",
-    "typescript": "7.0.2"
+    "jobs:scan": "node --env-file-if-exists=.env apps/cli/src/cli.ts",
+    "test": "npm run test --workspace=@job-bot/cli",
+    "typecheck": "npm run typecheck --workspaces",
+    "dev:web": "npm run dev --workspace=@job-bot/web",
+    "build:web": "npm run build --workspace=@job-bot/web"
   }
 }

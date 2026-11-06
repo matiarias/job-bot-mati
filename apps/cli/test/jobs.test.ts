@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-process.env.JOB_BOT_PROFILE_PATH = join(import.meta.dirname, '..', 'profile.example.json');
+process.env.JOB_BOT_PROFILE_PATH = join(import.meta.dirname, '..', '..', '..', 'profile.example.json');
 const { screen } = await import('../src/rules.ts');
 const { scan } = await import('../src/scan.ts');
 const { parseBoard, parseHimalayas, verify } = await import('../src/sources.ts');
@@ -120,7 +120,7 @@ test('escanea con una fuente caída, omite cerradas y no repite avisos mostrados
 test('valida perfiles existentes, ausentes e inválidos', () => {
   const directory = mkdtempSync(join(import.meta.dirname, '..', 'data-test-'));
   try {
-    assert.equal(loadProfile(join(import.meta.dirname, '..', 'profile.example.json')).documentedYears, 3);
+    assert.equal(loadProfile(join(import.meta.dirname, '..', '..', '..', 'profile.example.json')).documentedYears, 3);
     assert.throws(() => loadProfile(join(directory, 'missing.json')), /No se pudo leer el perfil/);
     writeFileSync(join(directory, 'invalid.json'), '{"documentedYears": "tres"}');
     assert.throws(() => loadProfile(join(directory, 'invalid.json')), /no es válido/);

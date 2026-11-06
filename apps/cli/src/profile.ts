@@ -14,4 +14,4 @@ export function loadProfile(path: string) {
   try { return profileSchema.parse(JSON.parse(content)); }
   catch { throw new Error('El perfil ' + path + ' no es válido. Revisá el JSON y comparalo con profile.example.json.'); }
 }
-export const profile = loadProfile(process.env.JOB_BOT_PROFILE_PATH || fileURLToPath(new URL('../profile.local.json', import.meta.url)));
+export const profile = loadProfile(process.env.JOB_BOT_PROFILE_PATH || fileURLToPath(new URL('../../../profile.local.json', import.meta.url)));
