@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "jobs:scan": "node --env-file-if-exists=.env apps/cli/src/cli.ts",
+    "jobs:sync": "node --env-file-if-exists=.env apps/cli/src/sync.ts",
     "test": "npm run test --workspace=@job-bot/cli && npm run test --workspace=@job-bot/api",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "dev:api": "npm run dev --workspace=@job-bot/api",

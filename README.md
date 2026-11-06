@@ -103,7 +103,11 @@ Si dejás ambas variables vacías, la API sirve los ejemplos desde el código. C
 
 ## Próximos pasos
 
-El siguiente paso es conectar el escaneo de la CLI para actualizar el catálogo con ofertas reales. Si agregamos preferencias sincronizadas, historial privado o controles de administración en la web, esas funciones tendrán acceso restringido.
+Para preparar la publicación de ofertas reales, aplicá también la migración `supabase/migrations/202611060002_real_jobs.sql`. Configurá `SUPABASE_SECRET_KEY` en el `.env` local con una clave secreta de Supabase y ejecutá `npm.cmd run jobs:sync`. La clave tiene acceso elevado a los datos y nunca debe compartirse ni incluirse en el frontend.
+
+El comando usa reglas preliminares sin IA, publica hasta cinco prioridades y ocho ofertas por confirmar y conserva el catálogo existente cuando no hay resultados. Los avisos con fecha desconocida se muestran como tales. Las ofertas ficticias ya cargadas siguen en la tabla hasta que se retiren explícitamente. Himalayas puede informar la fecha de última actualización en lugar de la fecha original de publicación.
+
+La búsqueda automática, la conexión con OpenAI y el despliegue se incorporarán después. Si agregamos preferencias sincronizadas o controles de administración en la web, esas funciones tendrán acceso restringido.
 
 ## Estructura del repositorio
 

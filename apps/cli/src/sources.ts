@@ -20,6 +20,7 @@ const boardPage = z.object({
       desirable: text, remote: z.boolean().optional(), remote_modality: text,
       countries: z.array(z.string()).optional(), remote_zone: text,
       min_salary: amount, max_salary: amount, application_url: httpUrl.nullish(),
+      published_at: z.union([z.string(), z.number()]).nullish(),
       company: z.object({ data: z.object({ id: z.union([z.string(), z.number()]) }).nullish() }).optional(),
     }),
   })),
@@ -32,7 +33,7 @@ const himalayasPage = z.object({
     locationRestrictions: z.array(z.union([z.string(), z.object({ alpha2: z.string() })])).optional(),
     timezoneRestrictions: z.array(z.union([z.number(), z.string()])).optional(),
     seniority: z.array(z.string()).optional(), minSalary: amount, maxSalary: amount,
-    salaryPeriod: text, currency: text,
+    salaryPeriod: text, currency: text, pubDate: z.number().nullish(),
   })),
 });
 
@@ -70,6 +71,7 @@ export function parseBoard(input: unknown): Job[] {
       company: 'Empresa por confirmar',
       url: published.origin === board ? published.href : url,
       statusUrl: url, directUrl, mode,
+      published: typeof a.published_at === 'number' ? a.published_at : a.published_at ? Date.parse(a.published_at) / 1000 : undefined,
       countries: a.countries?.filter(country => !/^(remote|remoto|worldwide|global|latam)$/i.test(country)),
       worldwide: a.remote_modality === 'fully_remote',
       description: [
@@ -107,6 +109,7 @@ export function parseHimalayas(input: unknown): Job[] {
       timezones: timezones?.every(Number.isFinite) ? timezones : undefined,
       seniority: a.seniority?.join(', '), contract: a.employmentType ?? undefined,
       expires: a.expiryDate ?? undefined,
+      published: a.pubDate ?? undefined,
       salary: a.minSalary || a.maxSalary || a.currency
         ? { min: a.minSalary ?? undefined, max: a.maxSalary ?? undefined, currency: a.currency ?? undefined, period: a.salaryPeriod ?? undefined }
         : undefined,

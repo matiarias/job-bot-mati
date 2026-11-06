@@ -11,7 +11,7 @@ export function createSupabaseJobsReader() {
   const endpoint = new URL('/rest/v1/jobs', url);
   endpoint.searchParams.set(
     'select',
-    'id,company,title,location,contract,salary,skills,date:published_on,description,matches,questions',
+    'id,company,title,location,contract,salary,skills,date:published_on,description,matches,questions,url,source',
   );
   endpoint.searchParams.set('order', 'published_on.desc,id.asc');
 

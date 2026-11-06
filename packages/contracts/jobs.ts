@@ -6,8 +6,10 @@ export type Job = {
   contract: string;
   salary: string;
   skills: string[];
-  date: string;
+  date: string | null;
   description: string;
   matches: string[];
   questions: string[];
+  url?: string;
+  source?: string;
 };

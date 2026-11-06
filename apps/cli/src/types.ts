@@ -17,6 +17,7 @@ export interface Job {
   seniority?: string;
   contract?: string;
   expires?: number;
+  published?: number;
   salary?: { min?: number; max?: number; currency?: string; period?: string };
 }
 
