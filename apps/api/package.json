@@ -1,0 +1,27 @@
+{
+  "name": "@job-bot/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && npm start",
+    "test": "npm run build && vitest run",
+    "start": "node --env-file-if-exists=../../.env dist/main.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.0",
+    "@nestjs/core": "^11.1.0",
+    "@nestjs/platform-express": "^11.1.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@job-bot/contracts": "1.0.0",
+    "@nestjs/testing": "^11.2.8",
+    "@types/node": "24.19.2",
+    "typescript": "7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

@@ -67,25 +67,46 @@ npm.cmd test
 npm.cmd run typecheck
 ```
 
+`npm.cmd test` ejecuta las pruebas de la CLI y las de la API con Vitest. Para ejecutar solo las de NestJS, usá `npm.cmd test --workspace=@job-bot/api`.
+
 [Get on Board](https://www.getonbrd.com/user-manual/get-on-board-s-api) · [Himalayas](https://himalayas.app/docs/remote-jobs-api) · [Alertas de LinkedIn](https://www.linkedin.com/help/linkedin/answer/a511279) · [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses)
 
 ## Interfaz web
 
-Desde la raíz, ejecutá estos comandos y abrí la URL que muestra Vite.
+Instalá las dependencias desde la raíz con `npm.cmd ci`. Después, desde la misma carpeta, iniciá la API y la web en dos terminales.
 
 ```powershell
-npm.cmd ci
+# Terminal 1
+npm.cmd run dev:api
+
+# Terminal 2
 npm.cmd run dev:web
 ```
 
-La bandeja usa ofertas ficticias. Podés buscar por puesto, empresa o tecnología, ordenar por fecha y guardar ofertas en este navegador. En pantallas chicas, al elegir una oferta se abre su detalle. Para generar la compilación de producción usá `npm.cmd run build:web`.
+Abrí la URL que muestra Vite. NestJS escucha en `http://127.0.0.1:3000` y Vite reenvía `/api/jobs` a ese servidor. La API de ejemplo no requiere cuentas ni claves.
+
+`GET /api/jobs` responde con estado `200` y una lista JSON de ofertas ficticias. Una lista sin ofertas se representa como `[]`. El tipo compartido `Job` conserva los IDs, el puesto, la empresa, la ubicación, la modalidad contractual, el salario, las tecnologías, la fecha, la descripción, las coincidencias y los puntos por confirmar.
+
+Podés buscar por puesto, empresa o tecnología, ordenar por fecha y guardar ofertas en este navegador. Para comprobar el reintento, detené la API y recargá la web. Cuando aparezca el mensaje de error, iniciá nuevamente la API y elegí **Reintentar**. Tus guardadas se conservan.
+
+Para compilar ambos workspaces, ejecutá `npm.cmd run build:api` y `npm.cmd run build:web`. Para ejecutar la API compilada, usá `npm.cmd start --workspace=@job-bot/api`.
+
+## Catálogo en Supabase
+
+La bandeja puede mostrar el catálogo sin login. Las ofertas de la tabla `jobs` son públicas y las guardadas siguen en el navegador. No guardes perfiles, preferencias ni historial personal en esa tabla.
+
+1. En el SQL Editor de tu proyecto de Supabase, ejecutá `supabase/migrations/202611060001_create_jobs.sql`. La migración activa RLS y concede solo lectura a los roles de la API pública.
+2. Si querés probar con las cinco ofertas ficticias, ejecutá también `supabase/seed.sql` en el SQL Editor.
+3. Agregá `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` al `.env` de la raíz y reiniciá NestJS. Usá la clave publicable del proyecto, que empieza con `sb_publishable_`.
+
+Si dejás ambas variables vacías, la API sirve los ejemplos desde el código. Con Supabase configurado, una tabla vacía devuelve `[]` y una falla devuelve `503` para que la web pueda ofrecer un reintento.
 
 ## Próximos pasos
 
-El siguiente paso es crear la API de ofertas con NestJS. La persistencia en PostgreSQL con Supabase se agregará después.
+El siguiente paso es conectar el escaneo de la CLI para actualizar el catálogo con ofertas reales. Si agregamos preferencias sincronizadas, historial privado o controles de administración en la web, esas funciones tendrán acceso restringido.
 
 ## Estructura del repositorio
 
-Este repositorio usa npm workspaces. `apps/cli` contiene el bot actual y tiene su propio `package.json`; el `package.json` de la raíz coordina la instalación y los comandos. El perfil, `.env` y `data/` permanecen en la raíz. En apps/web vive la interfaz con React, Vite y Tailwind.
+Este repositorio usa npm workspaces. `apps/cli` contiene el bot, `apps/web` la interfaz, `apps/api` la API de NestJS y `packages/contracts` el contrato TypeScript compartido. El `package.json` de la raíz coordina la instalación y los comandos. El perfil, `.env` y `data/` permanecen en la raíz.
 
 Desde la raíz, `npm.cmd ci` instala todos los workspaces. Para ejecutar un comando específico: `npm.cmd run test --workspace=@job-bot/cli`.

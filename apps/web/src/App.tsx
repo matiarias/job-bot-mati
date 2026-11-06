@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { ArrowLeft, Bookmark, BriefcaseBusiness, Check, ChevronRight, CircleHelp, Inbox, MapPin, Search } from 'lucide-react';
-import { jobs } from './jobs';
+import { useJobs } from './use-jobs';
 
 const views = [
   { id: 'all', label: 'Ofertas para vos', icon: Inbox },
@@ -11,12 +11,13 @@ const views = [
 const storageKey = 'job-bot:demo:saved';
 const dates = new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 const normalize = (value: string) => value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
-const reviewCount = jobs.filter(job => job.questions.length).length;
 
 function readSaved() {
   try {
     const value: unknown = JSON.parse(localStorage.getItem(storageKey) ?? '[]');
-    return Array.isArray(value) ? jobs.filter(job => value.includes(job.id)).map(job => job.id) : [];
+    return Array.isArray(value)
+      ? [...new Set(value.filter((id): id is string => typeof id === 'string'))]
+      : [];
   } catch {
     return [];
   }
@@ -26,12 +27,16 @@ export function App() {
   const [view, setView] = useState<(typeof views)[number]['id']>('all');
   const [query, setQuery] = useState('');
   const [saved, setSaved] = useState(readSaved);
-  const [selectedId, setSelectedId] = useState(jobs[0].id);
+  const [selectedId, setSelectedId] = useState<string>();
   const [mobileDetail, setMobileDetail] = useState(false);
   const [order, setOrder] = useState('recent');
   const detail = useRef<HTMLElement>(null);
   const list = useRef<HTMLElement>(null);
 
+  const { data: jobs = [], error, isLoading, isValidating, mutate } = useJobs();
+  const loading = isLoading || (error && isValidating);
+  const reviewCount = jobs.filter(job => job.questions.length).length;
+  const savedCount = jobs.filter(job => saved.includes(job.id)).length;
   const searchTerm = normalize(query.trim());
   const visibleJobs = jobs.filter(job => {
     if (view === 'saved' && !saved.includes(job.id)) return false;
@@ -74,7 +79,7 @@ export function App() {
           {views.map(({ id, label, icon: Icon }) => (
             <button key={id} type="button" aria-pressed={view === id} onClick={() => { setView(id); setMobileDetail(false); }}>
               <Icon size={18} aria-hidden="true" /> <span>{label}</span>
-              <span className="nav-count">{id === 'saved' ? saved.length : id === 'review' ? reviewCount : jobs.length}</span>
+              <span className="nav-count">{id === 'saved' ? savedCount : id === 'review' ? reviewCount : jobs.length}</span>
             </button>
           ))}
         </nav>
@@ -95,14 +100,19 @@ export function App() {
             <div className="list-heading">
               <h1 id="list-title">{views.find(item => item.id === view)?.label}</h1>
               <div className="list-controls">
-                <p role="status">{visibleJobs.length} {visibleJobs.length === 1 ? 'oferta' : 'ofertas'}</p>
+                <p role="status">{loading ? 'Cargando ofertas…' : error ? 'Ofertas no disponibles' : `${visibleJobs.length} ${visibleJobs.length === 1 ? 'oferta' : 'ofertas'}`}</p>
                 <select aria-label="Orden de las ofertas" value={order} onChange={event => setOrder(event.target.value)}>
                   <option value="recent">Más recientes</option>
                   <option value="older">Más antiguas</option>
                 </select>
               </div>
             </div>
-            {visibleJobs.length ? (
+            {loading ? null : error ? (
+              <div className="empty">
+                <p>No pudimos cargar las ofertas. Volvé a intentar en unos segundos.</p>
+                <button className="save mt-3" type="button" onClick={() => { void mutate(); }}>Reintentar</button>
+              </div>
+            ) : visibleJobs.length ? (
               <ul className="rows">
                 {visibleJobs.map(job => (
                   <li key={job.id}>
@@ -122,7 +132,7 @@ export function App() {
                   </li>
                 ))}
               </ul>
-            ) : <p className="empty">{query.trim() ? 'No encontramos ofertas para esa búsqueda.' : 'Todavía no hay ofertas en esta bandeja.'}</p>}
+            ) : <p className="empty">{!jobs.length ? 'Todavía no hay ofertas disponibles.' : query.trim() ? 'No encontramos ofertas para esa búsqueda.' : 'Todavía no hay ofertas en esta bandeja.'}</p>}
           </section>
           {selected && (
             <article ref={detail} tabIndex={-1} className="detail" aria-labelledby="detail-title">

@@ -1,18 +1,6 @@
-export type Job = {
-  id: string;
-  company: string;
-  title: string;
-  location: string;
-  contract: string;
-  salary: string;
-  skills: string[];
-  date: string;
-  description: string;
-  matches: string[];
-  questions: string[];
-};
+import type { Job } from '@job-bot/contracts';
 
-export const jobs: Job[] = [
+export const exampleJobs: Job[] = [
   {
     id: 'litoral', company: 'Litoral Tech', title: 'Frontend Engineer', location: 'Remoto desde Argentina',
     contract: 'Tiempo completo', salary: 'No publicado', skills: ['React', 'TypeScript', 'Testing Library'], date: '2026-11-06',
