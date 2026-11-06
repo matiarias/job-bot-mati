@@ -11,6 +11,7 @@ const views = [
 const storageKey = 'job-bot:demo:saved';
 const dates = new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 const normalize = (value: string) => value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+const reviewCount = jobs.filter(job => job.questions.length).length;
 
 function readSaved() {
   try {
@@ -31,10 +32,11 @@ export function App() {
   const detail = useRef<HTMLElement>(null);
   const list = useRef<HTMLElement>(null);
 
+  const searchTerm = normalize(query.trim());
   const visibleJobs = jobs.filter(job => {
     if (view === 'saved' && !saved.includes(job.id)) return false;
     if (view === 'review' && !job.questions.length) return false;
-    return normalize([job.title, job.company, job.location, ...job.skills].join(' ')).includes(normalize(query.trim()));
+    return !searchTerm || normalize([job.title, job.company, job.location, ...job.skills].join(' ')).includes(searchTerm);
   }).sort((a, b) => order === 'recent' ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date));
   const selected = visibleJobs.find(job => job.id === selectedId) ?? visibleJobs[0];
 
@@ -72,7 +74,7 @@ export function App() {
           {views.map(({ id, label, icon: Icon }) => (
             <button key={id} type="button" aria-pressed={view === id} onClick={() => { setView(id); setMobileDetail(false); }}>
               <Icon size={18} aria-hidden="true" /> <span>{label}</span>
-              <span className="nav-count">{id === 'saved' ? saved.length : id === 'review' ? jobs.filter(job => job.questions.length).length : jobs.length}</span>
+              <span className="nav-count">{id === 'saved' ? saved.length : id === 'review' ? reviewCount : jobs.length}</span>
             </button>
           ))}
         </nav>
