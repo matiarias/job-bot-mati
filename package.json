@@ -18,6 +18,10 @@
     "dev:api": "npm run dev --workspace=@job-bot/api",
     "build:api": "npm run build --workspace=@job-bot/api",
     "dev:web": "npm run dev --workspace=@job-bot/web",
-    "build:web": "npm run build --workspace=@job-bot/web"
+    "build:web": "npm run build --workspace=@job-bot/web",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1"
   }
 }

@@ -109,3 +109,14 @@ h2 { font-size: clamp(29px, 4vw, 44px); }
 .detail-section .description { white-space: pre-wrap; overflow-wrap: anywhere; }
 .description-toggle { min-height: 44px; margin-top: 4px; color: #4e386c; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .match ul { display: grid; gap: 8px; }
+
+/* Búsqueda manual desde la bandeja. */
+.toolbar { align-items: flex-start; flex-wrap: wrap; }
+.job-refresh { display: grid; justify-items: start; gap: 8px; min-width: 0; font-size: 14px; }
+.job-refresh form:not([hidden]) { display: grid; gap: 6px; }
+.job-refresh-fields { display: flex; flex-wrap: wrap; gap: 8px; }
+.job-refresh-fields input { min-height: 44px; min-width: 0; max-width: 100%; padding: 8px; border: 1px solid #a8b4ca; border-radius: 8px; background: white; }
+.job-refresh button:disabled { opacity: .65; cursor: wait; }
+.job-refresh [role="status"]:empty { display: none; }
+.job-refresh [role="alert"] { color: #952c39; }
+.catalog-notice { padding: 12px 28px; color: var(--muted); font-size: 14px; }

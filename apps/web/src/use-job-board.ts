@@ -26,8 +26,11 @@ export function useJobBoard() {
   const detail = useRef<HTMLElement>(null);
   const list = useRef<HTMLElement>(null);
 
-  const { data: jobs = [], error, isLoading, isValidating, mutate } = useJobs();
-  const loading = isLoading || (error && isValidating);
+  const { data, error: queryError, isPending, isFetching, refetch } = useJobs();
+  const jobs = data ?? [];
+  const loading = !data && (isPending || isFetching);
+  const error = data ? null : queryError;
+  const refreshError = data ? queryError : null;
   const reviewCount = jobs.filter(job => job.questions.length).length;
   const savedCount = jobs.filter(job => saved.includes(job.id)).length;
   const searchTerm = normalize(query.trim());
@@ -65,5 +68,5 @@ export function useJobBoard() {
     }
   }
 
-  return { view, setView, query, setQuery, saved, selected, mobileDetail, setMobileDetail, order, setOrder, detail, list, jobs, error, loading, mutate, reviewCount, savedCount, visibleJobs, selectJob, returnToList, toggleSaved };
+  return { view, setView, query, setQuery, saved, selected, mobileDetail, setMobileDetail, order, setOrder, detail, list, jobs, error, loading, refetch, refreshError, reviewCount, savedCount, visibleJobs, selectJob, returnToList, toggleSaved };
 }

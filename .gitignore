@@ -12,3 +12,6 @@ profile.local.json
 *.zip
 coverage/
 dist/
+
+playwright-report/
+test-results/

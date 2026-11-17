@@ -1,0 +1,21 @@
+{
+  "name": "@job-bot/job-search",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./search.ts",
+    "./rules": "./rules.ts",
+    "./sources": "./sources.ts",
+    "./types": "./types.ts",
+    "./dedup": "./dedup.ts",
+    "./catalog": "./catalog.ts"
+  },
+  "dependencies": {
+    "html-to-text": "10.0.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/html-to-text": "9.0.4"
+  }
+}

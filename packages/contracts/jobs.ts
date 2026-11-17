@@ -13,3 +13,8 @@ export type Job = {
   url?: string;
   source?: string;
 };
+export type JobRefreshResult = {
+  processed: number;
+  warnings: string[];
+  completedAt: string;
+};
