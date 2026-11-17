@@ -2,6 +2,10 @@
 
 Bandeja personal de ofertas remotas de frontend y software engineering desde Argentina. Podés buscar y guardar vacantes, revisar qué requisitos conviene confirmar y abrir la publicación original.
 
+**[Abrir Job Bot en producción](https://job-bot-mati.vercel.app/)**
+
+![Bandeja principal de Job Bot con el listado de ofertas y el detalle de una vacante](docs/job-bot-produccion.png)
+
 ## Cómo funciona
 
 React y TanStack Query consultan a NestJS, que lee el catálogo público de Supabase. **Buscar ofertas nuevas** requiere una clave de actualización. NestJS consulta Get on Board e Himalayas, aplica reglas de afinidad y elegibilidad, y guarda los resultados. La lista se actualiza cuando termina. Las ofertas guardadas se conservan en el navegador.
