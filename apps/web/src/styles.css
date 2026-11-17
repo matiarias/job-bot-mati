@@ -94,3 +94,18 @@ h2 { font-size: clamp(29px, 4vw, 44px); }
   .showing-detail .detail { display: block; }
   .back { display: flex; min-height: 44px; margin-bottom: 12px; color: #25334f; font-weight: 600; }
 }
+
+/* Detalle de la oferta: grupos y espaciado consistentes. */
+.detail-header { display: grid; gap: 20px; }
+.detail-top { margin-bottom: 0; }
+.detail-heading { display: grid; gap: 12px; }
+.detail-heading h2, .company { overflow-wrap: anywhere; }
+.detail-heading .location { margin-top: 0; align-items: flex-start; }
+.location svg { flex: none; margin-top: 3px; }
+.detail-source { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; color: var(--muted); font-size: 14px; }
+.detail-source p a { color: var(--color-ink-brand); text-decoration: underline; text-underline-offset: 3px; }
+.detail-source .save { width: fit-content; }
+.detail-header .skills { margin-top: 0; }
+.detail-section .description { white-space: pre-wrap; overflow-wrap: anywhere; }
+.description-toggle { min-height: 44px; margin-top: 4px; color: #4e386c; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.match ul { display: grid; gap: 8px; }

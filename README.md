@@ -114,3 +114,5 @@ La búsqueda automática, la conexión con OpenAI y el despliegue se incorporar�
 Este repositorio usa npm workspaces. `apps/cli` contiene el bot, `apps/web` la interfaz, `apps/api` la API de NestJS y `packages/contracts` el contrato TypeScript compartido. El `package.json` de la raíz coordina la instalación y los comandos. El perfil, `.env` y `data/` permanecen en la raíz.
 
 Desde la raíz, `npm.cmd ci` instala todos los workspaces. Para ejecutar un comando específico: `npm.cmd run test --workspace=@job-bot/cli`.
+
+En el detalle, las descripciones largas se muestran resumidas y se pueden expandir con **Ver más**. La fuente y el enlace a la oferta aparecen agrupados.
