@@ -1,7 +1,7 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { HttpException, Injectable, ServiceUnavailableException, UnauthorizedException } from '@nestjs/common';
-import { searchJobs } from '@job-bot/job-search';
-import { catalogRecord } from '@job-bot/job-search/catalog';
+import { searchJobs } from '@job-bot/job-search/server';
+import { catalogRecord } from '@job-bot/job-search/server-catalog';
 import type { JobRefreshResult } from '@job-bot/contracts';
 
 function digest(value: string) {

@@ -9,13 +9,26 @@
     "./sources": "./sources.ts",
     "./types": "./types.ts",
     "./dedup": "./dedup.ts",
-    "./catalog": "./catalog.ts"
+    "./catalog": "./catalog.ts",
+    "./server": {
+      "default": "./dist/search.js",
+      "types": "./search.ts"
+    },
+    "./server-catalog": {
+      "default": "./dist/catalog.js",
+      "types": "./catalog.ts"
+    }
   },
   "dependencies": {
     "html-to-text": "10.0.1",
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@types/html-to-text": "9.0.4"
+    "@types/html-to-text": "9.0.4",
+    "typescript": "7.0.2",
+    "@types/node": "24.19.2"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
   }
 }
